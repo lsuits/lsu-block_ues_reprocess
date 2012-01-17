@@ -23,22 +23,27 @@ abstract class ues_reprocess {
         echo $OUTPUT->box_end();
     }
 
-    function post($found, $data) {
+    function post($owned_sections, $data) {
         $sections = array();
 
         foreach (get_object_vars($data) as $key => $checked) {
-            if (preg_match('/course_(\d+)/', $key, $matches)) {
+            if (preg_match('/course_(\d+)_(\d+)/', $key, $matches)) {
                 $in_ues_course = function($section) use ($matches) {
-                    $same = $section->courseid == $matches[1];
+
+                    $same_semester = $section->semesterid == $matches[1];
+                    $same_course = $section->courseid == $matches[2];
+
+                    $same = ($same_semester and $same_course);
+
                     return ($same and empty($section->reprocessed));
                 };
 
-                $sections += array_filter($found, $in_ues_course);
+                $sections += array_filter($owned_sections, $in_ues_course);
                 continue;
             }
 
             if (preg_match('/section_(\d+)/', $key, $matches)) {
-                $sections[$matches[1]] = $found[$matches[1]];
+                $sections[$matches[1]] = $owned_sections[$matches[1]];
             }
         }
 

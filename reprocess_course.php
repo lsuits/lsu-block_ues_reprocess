@@ -45,7 +45,7 @@ $form = new reprocess_form(null, array('sections' => $found));
 if ($form->is_cancelled()) {
     redirect($back_url);
 } else if ($data = $form->get_data()) {
-    $sections = ues_reprocess::post($data);
+    $sections = ues_reprocess::post($found, $data);
     $posted = true;
 }
 

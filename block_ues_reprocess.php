@@ -67,4 +67,16 @@ class block_ues_reprocess extends block_list {
 
         return $this->content;
     }
+
+    function cron() {
+        $_s = ues::gen_str('block_ues_reprocess');
+
+        mtrace($_s('cleanup'));
+
+        ues_section::delete_meta(array('reprocessed' => true));
+
+        mtrace($_s('done'));
+
+        return true;
+    }
 }

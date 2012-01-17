@@ -41,24 +41,26 @@ class reprocess_form extends moodleform {
         foreach ($stocked as $semesterid => $courses) {
             $semester = ues_semester::get(array('id' => $semesterid));
 
-            $name = "$semester->year $semester->name $semester->session_key";
-            $m->addElement('header', 'sem_header_' . $semesterid, $name);
+            $sem_name = "$semester->year $semester->name $semester->session_key";
+            $m->addElement('header', 'sem_header_' . $semesterid, $sem_name);
 
             foreach ($courses as $courseid => $sections) {
                 $course = ues_course::get(array('id' => $courseid));
 
-                $name = "<strong>$course->department $course->cou_number</strong>";
-                $m->addElement('checkbox', 'course_' . $courseid, $name, '');
+                $name = "<strong>$sem_name $course->department $course->cou_number</strong>";
+                $m->addElement('checkbox', 'course_'.$semesterid.'_' . $courseid, $name, '');
 
                 foreach ($sections as $sectionid => $section) {
                     if (empty($section->reprocessed)) {
                         $m->addElement('checkbox', 'section_'.$sectionid, 'Section ' . $section->sec_number, '');
 
-                        $m->disabledIf('section_'.$sectionid, 'course_'.$courseid, 'checked');
+                        $m->disabledIf('section_'.$sectionid, 'course_'.$semesterid.'_'.$courseid, 'checked');
                     } else {
                         $m->addElement('static', 'section_'.$sectionid, 'Section ' . $section->sec_number, 'X');
                     }
                 }
+
+                $m->addElement('static', 'spacer_'.$semesterid.'_'.$courseid, '', '');
             }
         }
 
