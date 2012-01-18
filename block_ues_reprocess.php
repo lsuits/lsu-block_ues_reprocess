@@ -1,6 +1,7 @@
 <?php
 
 require_once $CFG->dirroot . '/enrol/ues/publiclib.php';
+ues::require_daos();
 
 class block_ues_reprocess extends block_list {
     function init() {
@@ -73,9 +74,7 @@ class block_ues_reprocess extends block_list {
 
         mtrace($_s('cleanup'));
 
-        ues_section::delete_meta(array('reprocessed' => true));
-
-        mtrace($_s('done'));
+        ues_section::delete_meta(array('name' => 'reprocessed'));
 
         return true;
     }
