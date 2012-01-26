@@ -45,7 +45,9 @@ class block_ues_reprocess extends block_list {
         $is_site = $COURSE->id == 1;
 
         if ($is_site) {
-            $content->items[] = $url_gen('reprocess', array('id' => $USER->id));
+            $content->items[] = $url_gen('reprocess', array(
+                'id' => $USER->id, 'type' => 'user'
+            ));
         } else {
             $sections = $teacher->sections(true);
 
@@ -59,7 +61,9 @@ class block_ues_reprocess extends block_list {
                 return $this->content;
             }
 
-            $content->items[] = $url_gen('reprocess_course', array('id' => $COURSE->id));
+            $content->items[] = $url_gen('reprocess', array(
+                'id' => $COURSE->id, 'type' => 'course'
+            ));
         }
 
         $content->icons[] = $OUTPUT->pix_icon('i/users', $_s('reprocess'));
