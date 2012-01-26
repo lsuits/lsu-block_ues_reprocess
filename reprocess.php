@@ -95,7 +95,7 @@ if ($form->is_cancelled()) {
 
     $sections = ues_reprocess::post($owned_sections, $params);
 
-    $confirm_url = new moodle_url('reprocess.php', $params);
+    $confirm_url = new moodle_url('rpc.php', $params);
     $cancel_url = new moodle_url('reprocess.php', $basic);
     $posted = true;
 }
