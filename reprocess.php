@@ -9,37 +9,94 @@ require_login();
 
 ues::require_daos();
 
-$userid = required_param('id', PARAM_INT);
+$type = required_param('type', PARAM_TEXT);
 
-$user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+$valid_types = array('user', 'course');
+
+if (!in_array($type, $valid_types)) {
+    print_error('not_supported', 'block_ues_reprocess', '', $type);
+}
+
+$id = required_param('id', PARAM_INT);
 
 $_s = ues::gen_str('block_ues_reprocess');
 
-$ues_user = ues_user::upgrade($user);
+$blockname = $_s('pluginname');
 
-$owned_sections = $ues_user->sections(true);
+if ($type == 'user') {
+    $user = $DB->get_record('user', array('id' => $id), '*', MUST_EXIST);
 
-foreach ($owned_sections as $section) {
-    $section->fill_meta();
+    $filter = function ($section) {
+        $section->fill_meta();
+        return true;
+    };
+
+    $header = $_s('reprocess');
+    $context = get_context_instance(CONTEXT_SYSTEM);
+
+    $back_url = new moodle_url('/my');
+
+    $custom_page = function ($page) use ($blockname, $context, $header) {
+        $page->set_context($context);
+        $page->set_heading($blockname);
+        $page->navbar->add($blockname);
+        $page->navbar->add($header);
+        $page->set_title($header);
+    };
+} else {
+    $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+    $user = $USER;
+
+    $filter = function($section) use ($course) {
+        $section->fill_meta();
+        return $section->idnumber == $course->idnumber;
+    };
+
+    $header = $_s('reprocess_course');
+
+    $back_url = new moodle_url('/course/view.php', array('id' => $id));
+    $custom_page = function ($page) use ($course, $header, $blockname) {
+        global $USER;
+        $context = get_context_instance(CONTEXT_COURSE, $course->id);
+
+        $url = new moodle_url('/blocks/ues_reprocess/reprocess.php', array(
+            'id' => $USER->id,
+            'type' => 'user'
+        ));
+
+        $page->set_context($context);
+        $page->set_heading($blockname . ': ' . $header);
+        $page->navbar->add($blockname, $url);
+        $page->navbar->add($header);
+        $page->set_title($header);
+        $page->set_course($course);
+    };
 }
 
-$blockname = $_s('pluginname');
-$header = $_s('reprocess');
+$ues_user = ues_user::upgrade($user);
 
-$back_url = new moodle_url('/my');
+$owned_sections = array_filter($ues_user->sections(true), $filter);
 
-$PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
-$PAGE->set_heading($blockname);
-$PAGE->navbar->add($blockname);
-$PAGE->navbar->add($header);
-$PAGE->set_title($header);
+$custom_page($PAGE);
 
-$form = new reprocess_form(null, array('sections' => $owned_sections));
+$form = new reprocess_form(null, array(
+    'sections' => $owned_sections, 'type' => $type
+));
 
 if ($form->is_cancelled()) {
     redirect($back_url);
 } else if ($data = $form->get_data()) {
-    $sections = ues_reprocess::post($owned_sections, $data);
+    $PAGE->requires->js('/lib/jquery.js');
+    $PAGE->requires->js('/blocks/ues_reprocess/js/reprocess.js');
+
+    $basic = array('id'=> $id, 'type' => $type);
+
+    $params = get_object_vars($data);
+
+    $sections = ues_reprocess::post($owned_sections, $params);
+
+    $confirm_url = new moodle_url('rpc.php', $params);
+    $cancel_url = new moodle_url('reprocess.php', $basic);
     $posted = true;
 }
 
@@ -50,8 +107,22 @@ if (!empty($posted) and empty($sections)) {
     echo $OUTPUT->notification($_s('select'));
     $form->display();
 } else if (!empty($posted)) {
-    ues_reprocess::select($sections);
-    echo $OUTPUT->continue_button($back_url);
+    $to_number = function ($in, $section) {
+        $section->semester();
+        $section->course();
+        return $in . "<li><strong>$section</strong></li>";
+    };
+
+    $numbers = array_reduce($sections, $to_number, '');
+
+    echo $OUTPUT->confirm($_s('are_you_sure', $numbers), $confirm_url, $cancel_url);
+
+    echo html_writer::start_tag('div', array('id' => 'loading', 'style' => 'display: none'));
+    echo $OUTPUT->notification($_s('patience'));
+    echo '<br/>';
+    echo $OUTPUT->pix_icon('i/loading', 'Loading');
+    echo html_writer::end_tag('div');
+
 } else if (empty($owned_sections)) {
     echo $OUTPUT->notification($_s('none_found'));
     echo $OUTPUT->continue_button($back_url);

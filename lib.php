@@ -4,7 +4,6 @@ abstract class ues_reprocess {
     function select($sections) {
         global $OUTPUT;
 
-        echo $OUTPUT->box_start();
         echo html_writer::start_tag('pre');
 
         foreach ($sections as $section) {
@@ -20,13 +19,12 @@ abstract class ues_reprocess {
         }
 
         echo html_writer::end_tag('pre');
-        echo $OUTPUT->box_end();
     }
 
     function post($owned_sections, $data) {
         $sections = array();
 
-        foreach (get_object_vars($data) as $key => $checked) {
+        foreach ($data as $key => $checked) {
             if (preg_match('/course_(\d+)_(\d+)/', $key, $matches)) {
                 $in_ues_course = function($section) use ($matches) {
 
