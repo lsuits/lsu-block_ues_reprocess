@@ -37,11 +37,15 @@ if ($type == 'user') {
     $back_url = new moodle_url('/my');
 
     $custom_page = function ($page) use ($blockname, $context, $header) {
+        global $USER;
         $page->set_context($context);
         $page->set_heading($blockname);
         $page->navbar->add($blockname);
         $page->navbar->add($header);
         $page->set_title($header);
+        $page->set_url(new moodle_url('/blocks/ues_reprocess/reprocess.php', array(
+            'id' => $USER->id, 'type' => 'user'
+        )));
     };
 } else {
     $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
@@ -60,10 +64,9 @@ if ($type == 'user') {
     $custom_page = function ($page) use ($course, $context, $header, $blockname) {
         global $USER;
 
-        $url = new moodle_url('/blocks/ues_reprocess/reprocess.php', array(
-            'id' => $USER->id,
-            'type' => 'user'
-        ));
+        $base = '/blocks/ues_reprocess/reprocess.php';
+
+        $url = new moodle_url($base, array('id' => $USER->id,'type' => 'user'));
 
         $page->set_context($context);
         $page->set_heading($blockname . ': ' . $header);
@@ -71,6 +74,9 @@ if ($type == 'user') {
         $page->navbar->add($header);
         $page->set_title($header);
         $page->set_course($course);
+        $page->set_url(new moodle_url($base, array(
+            'id' => $course->id, 'type' => 'course'
+        )));
     };
 }
 
