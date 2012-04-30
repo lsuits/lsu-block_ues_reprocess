@@ -39,7 +39,13 @@ $_s = ues::gen_str('block_ues_reprocess');
 
 $ues_user = ues_user::upgrade($user);
 
-$owned_sections = array_filter($ues_user->sections(true), $filter);
+if (has_capability('block/ues_reprocess:canreprocess', $context)) {
+    $pre_sections = ues_section::from_course($course);
+} else {
+    $pre_sections = $ues_user->sections(true);
+}
+
+$owned_sections = array_filter($pre_sections, $filter);
 
 if ($data = data_submitted() and !empty($owned_sections)) {
     try {

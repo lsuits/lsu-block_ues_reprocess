@@ -1,6 +1,9 @@
 <?php
 
 $string['pluginname'] = 'Reprocess Enrollment';
+
+$string['ues_reprocess:canreprocess'] = 'Allow UES enrollment reprocessing for courses';
+
 $string['not_supported'] = 'You have requested an unsupported reprocess type: {$a}';
 $string['reprocess'] = 'Reprocess';
 $string['reprocess_course'] = 'Reprocess Course';
