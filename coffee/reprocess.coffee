@@ -3,6 +3,8 @@ $(document).ready ->
 
     sections = -> $('input[name^=section_]')
 
+    courses = -> $('input[name^=course_]')
+
     $('form[method=POST]').submit ->
         params = {
             type: pull 'type',
@@ -13,6 +15,7 @@ $(document).ready ->
             name = $(section).attr 'name'
             params[name] = pull name
 
+        set elem for elem in courses()
         set elem for elem in sections()
 
         loading = $('#loading').html()
