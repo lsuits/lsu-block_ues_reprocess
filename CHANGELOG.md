@@ -1,3 +1,9 @@
+## v1.1.1
+
+- Fixes the javascript that posts course selections [#4]
+
+[4]: https://github.com/lsuits/ues_reprocess/issues/4
+
 ## v1.1.0
 
 - Adds Reprocess link in _Users_ branch, under _Enrolled Users_ [#3][3]
