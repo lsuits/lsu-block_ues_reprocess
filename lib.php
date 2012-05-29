@@ -11,6 +11,8 @@ abstract class ues_reprocess {
             ues_student::reset_status($section, ues::PROCESSED);
         }
 
+        ues::reset_unenrollments($sections);
+
         ues::reprocess_sections($sections, false);
 
         // Build processed entries
