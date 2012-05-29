@@ -1,3 +1,9 @@
+## v1.1.2
+
+- Reset unenrollments on a bad manifest [2fe79d][2fe79d]
+
+[2fe79d]: https://github.com/lsuits/ues_reprocess/commit/2fe79d09cb5e79d8659c6f2d8bc31632ff49d4b7
+
 ## v1.1.1
 
 - Fixes the javascript that posts course selections [#4]
