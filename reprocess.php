@@ -93,7 +93,7 @@ $owned_sections = array_filter($pre_sections, $filter);
 $custom_page($PAGE);
 
 $form = new reprocess_form(null, array(
-    'sections' => $owned_sections, 'type' => $type
+    'id' => $id, 'sections' => $owned_sections, 'type' => $type
 ));
 
 if ($form->is_cancelled()) {

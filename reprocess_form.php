@@ -64,7 +64,7 @@ class reprocess_form extends moodleform {
             }
         }
 
-        $m->addElement('hidden', 'id', $COURSE->id);
+        $m->addElement('hidden', 'id', $this->_customdata['id']);
         $m->addElement('hidden', 'type', $this->_customdata['type']);
 
         $buttons = array(
