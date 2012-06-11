@@ -66,7 +66,9 @@ class block_ues_reprocess extends block_list {
             ));
         }
 
-        $content->icons[] = $OUTPUT->pix_icon('i/users', $_s('reprocess'));
+        $content->icons[] = $OUTPUT->pix_icon(
+            'i/users', $_s('reprocess'), 'moodle', array('class' => 'icon')
+        );
 
         $this->content = $content;
 
