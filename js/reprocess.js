@@ -1,24 +1,44 @@
 (function(){
-  $(document).ready(function() {
+  M.block_ues_reprocess = {};
+  M.block_ues_reprocess.init = function(Y) {
     var courses, pull, sections;
     pull = function(value) {
-      return $('input[name=' + value + ']').val();
+      return Y.one('input[name=' + value + ']').get('value');
     };
     sections = function() {
-      return $('input[name^=section_]');
+      var ret;
+      ret = [];
+      Y.all('input').each(function(node) {
+        var name;
+        name = node.get('name');
+        if (name.match(/^section_/)) {
+          return ret.push(node);
+        }
+      });
+      return ret;
     };
     courses = function() {
-      return $('input[name^=course_]');
+      var ret;
+      ret = [];
+      Y.all('input').each(function(node) {
+        var name;
+        name = node.get('name');
+        if (name.match(/^course_/)) {
+          return ret.push(node);
+        }
+      });
+      return ret;
     };
-    return $('form[method=POST]').submit(function() {
-      var _a, _b, _c, _d, _e, _f, elem, loading, params, set;
+    return Y.one('form[method=POST]').on('submit', function(e) {
+      var _a, _b, _c, _d, _e, _f, elem, params, set;
+      e.preventDefault();
       params = {
         type: pull('type'),
         id: pull('id')
       };
       set = function(section) {
         var name;
-        name = $(section).attr('name');
+        name = section.get('name');
         params[name] = pull(name);
         return params[name];
       };
@@ -32,12 +52,18 @@
         elem = _e[_d];
         set(elem);
       }
-      loading = $('#loading').html();
-      $('.buttons').html(loading);
-      $.post('rpc.php', params, function(data) {
-        return $('#notice').html(data);
+      Y.one('.buttons').getDOMNode().innerHTML = Y.one('#loading').getDOMNode().innerHTML;
+      Y.io('rpc.php', {
+        method: 'POST',
+        data: params,
+        "on": {
+          success: function(id, result) {
+            Y.one('#notice').getDOMNode().innerHTML = result.response;
+            return Y.one('#notice').getDOMNode().innerHTML;
+          }
+        }
       });
       return false;
     });
-  });
+  };
 })();

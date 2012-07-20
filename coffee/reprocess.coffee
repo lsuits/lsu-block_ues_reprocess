@@ -1,27 +1,47 @@
-$(document).ready ->
-    pull = (value) -> $('input[name=' + value + ']').val()
+M.block_ues_reprocess = {}
 
-    sections = -> $('input[name^=section_]')
+M.block_ues_reprocess.init = (Y) ->
+    pull = (value) -> Y.one('input[name=' + value + ']').get 'value'
 
-    courses = -> $('input[name^=course_]')
+    sections = ->
+        ret = []
+        Y.all('input').each (node) ->
+            name = node.get 'name'
+            if name.match /^section_/
+                ret.push node
+        ret
 
-    $('form[method=POST]').submit ->
+    courses = ->
+        ret = []
+        Y.all('input').each (node) ->
+            name = node.get 'name'
+            if name.match /^course_/
+                ret.push node
+        ret
+
+    Y.one('form[method=POST]').on 'submit', (e) ->
+        e.preventDefault();
+
         params = {
             type: pull 'type',
             id: pull 'id'
         }
 
         set = (section) ->
-            name = $(section).attr 'name'
+            name = section.get 'name'
             params[name] = pull name
 
         set elem for elem in courses()
         set elem for elem in sections()
 
-        loading = $('#loading').html()
-        $('.buttons').html loading
+        Y.one('.buttons').getDOMNode().innerHTML = Y.one('#loading').getDOMNode().innerHTML
 
-        $.post 'rpc.php', params, (data) ->
-            $('#notice').html data
-
+        Y.io 'rpc.php', {
+            method: 'POST',
+            data: params,
+            "on": {
+                success: (id, result) ->
+                    Y.one('#notice').getDOMNode().innerHTML = result.response
+            }
+        }
         false

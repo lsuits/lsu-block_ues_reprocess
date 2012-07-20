@@ -17,7 +17,7 @@ abstract class ues_reprocess {
 
         // Build processed entries
         foreach ($sections as $section) {
-            $section->save_meta(array('reprocessed' => true));
+            $section->save_meta(array('section_reprocessed' => true));
         }
 
         echo html_writer::end_tag('pre');
@@ -35,7 +35,7 @@ abstract class ues_reprocess {
 
                     $same = ($same_semester and $same_course);
 
-                    return ($same and empty($section->reprocessed));
+                    return ($same and empty($section->section_reprocessed));
                 };
 
                 $sections += array_filter($owned_sections, $in_ues_course);

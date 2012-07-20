@@ -80,7 +80,7 @@ class block_ues_reprocess extends block_list {
 
         mtrace($_s('cleanup'));
 
-        ues_section::delete_meta(array('name' => 'reprocessed'));
+        ues_section::update_meta(array('section_reprocessed' => 0));
 
         return true;
     }

@@ -99,8 +99,13 @@ $form = new reprocess_form(null, array(
 if ($form->is_cancelled()) {
     redirect($back_url);
 } else if ($data = $form->get_data()) {
-    $PAGE->requires->js('/lib/jquery.js');
-    $PAGE->requires->js('/blocks/ues_reprocess/js/reprocess.js');
+    $module = array(
+        'name' => 'blocks_ues_reprocess',
+        'fullpath' => '/blocks/ues_reprocess/js/reprocess.js',
+        'requires' => array('base', 'io', 'node')
+    );
+
+    $PAGE->requires->js_init_call('M.block_ues_reprocess.init', null, false, $module);
 
     $basic = array('id'=> $id, 'type' => $type);
 

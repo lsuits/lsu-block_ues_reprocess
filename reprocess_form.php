@@ -51,7 +51,7 @@ class reprocess_form extends moodleform {
                 $m->addElement('checkbox', 'course_'.$semesterid.'_' . $courseid, $name, '');
 
                 foreach ($sections as $sectionid => $section) {
-                    if (empty($section->reprocessed)) {
+                    if (empty($section->section_reprocessed)) {
                         $m->addElement('checkbox', 'section_'.$sectionid, 'Section ' . $section->sec_number, '');
 
                         $m->disabledIf('section_'.$sectionid, 'course_'.$semesterid.'_'.$courseid, 'checked');
