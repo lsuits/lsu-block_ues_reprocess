@@ -1,6 +1,7 @@
 ## v1.1.3
 
 - Remove unnecessary jQuery integration [fde69c][fde69c]
+- Made reprocess meta entry Meta Viewer friendly
 
 [fde69c]: https://github.com/lsuits/ues_reprocess/commit/fde69c2ef45c707472c5943a1dccb2f58f4a2424
 
