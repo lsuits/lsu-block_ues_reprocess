@@ -1,3 +1,9 @@
+## v1.1.3
+
+- Remove unnecessary jQuery integration [fde69c][fde69c]
+
+[fde69c]: https://github.com/lsuits/ues_reprocess/commit/fde69c2ef45c707472c5943a1dccb2f58f4a2424
+
 ## v1.1.2
 
 - Reset unenrollments on a bad manifest [2fe79d][2fe79d]
