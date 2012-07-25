@@ -1,7 +1,7 @@
 <?php
 
 abstract class ues_event_handler {
-    function helpdesk_course($help) {
+    public static function helpdesk_course($help) {
 
         if (!has_capability('block/ues_reprocess:canreprocess', $help->context)) {
             return true;
@@ -17,7 +17,7 @@ abstract class ues_event_handler {
         return true;
     }
 
-    function ues_course_settings_navigation($params) {
+    public static function ues_course_settings_navigation($params) {
         global $OUTPUT;
 
         $nodes = $params[0];
