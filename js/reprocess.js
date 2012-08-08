@@ -58,7 +58,7 @@
         data: params,
         "on": {
           success: function(id, result) {
-            Y.one('#notice').getDOMNode().innerHTML = result.response;
+            Y.one('#notice').getDOMNode().innerHTML = result.responseText;
             return Y.one('#notice').getDOMNode().innerHTML;
           }
         }
