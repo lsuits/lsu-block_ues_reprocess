@@ -1,7 +1,7 @@
 <?php
 
 abstract class ues_reprocess {
-    function select($sections) {
+    public static function select($sections) {
         global $OUTPUT;
 
         echo html_writer::start_tag('pre');
@@ -23,7 +23,7 @@ abstract class ues_reprocess {
         echo html_writer::end_tag('pre');
     }
 
-    function post($owned_sections, $data) {
+    public static function post($owned_sections, $data) {
         $sections = array();
 
         foreach ($data as $key => $checked) {

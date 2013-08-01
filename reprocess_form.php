@@ -65,7 +65,10 @@ class reprocess_form extends moodleform {
         }
 
         $m->addElement('hidden', 'id', $this->_customdata['id']);
+        $m->setType('id',PARAM_INT);
+        
         $m->addElement('hidden', 'type', $this->_customdata['type']);
+        $m->setType('type',PARAM_TEXT);
 
         $buttons = array(
             $m->createElement('submit', 'reprocess', get_string('reprocess', 'block_ues_reprocess')),
