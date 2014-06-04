@@ -23,7 +23,7 @@ abstract class ues_event_handler {
         $nodes = $params[0];
         $instance = $params[1];
 
-        $context = get_context_instance(CONTEXT_COURSE, $instance->courseid);
+        $context = context_course::instance($instance->courseid);
 
         if (!has_capability('block/ues_reprocess:canreprocess', $context)) {
             return true;

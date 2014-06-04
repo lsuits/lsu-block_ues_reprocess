@@ -32,7 +32,7 @@ if ($type == 'user') {
     };
 
     $header = $_s('reprocess');
-    $context = get_context_instance(CONTEXT_SYSTEM);
+    $context = context_system::instance();
 
     $back_url = new moodle_url('/my');
 
@@ -49,7 +49,7 @@ if ($type == 'user') {
     };
 } else {
     $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
-    $context = get_context_instance(CONTEXT_COURSE, $course->id);
+    $context = context_course::instance($course->id);
 
     $user = $USER;
 

@@ -18,7 +18,7 @@ if ($type == 'user') {
         return true;
     };
 
-    $context = get_context_instance(CONTEXT_SYSTEM);
+    $context = context_system::instance();
     $back_url = new moodle_url('/my');
 } else {
     $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
@@ -29,7 +29,7 @@ if ($type == 'user') {
         return $section->idnumber == $course->idnumber;
     };
 
-    $context = get_context_instance(CONTEXT_COURSE, $course->id);
+    $context = context_course::instance($course->id);
     $back_url = new moodle_url('/course/view.php', array('id' => $id));
 }
 
