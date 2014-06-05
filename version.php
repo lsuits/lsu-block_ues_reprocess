@@ -33,6 +33,5 @@ $plugin->release = 'v1.1.4';
 
 
 $plugin->dependencies = array(
-    'mod_forum' => ANY_VERSION,
-    'mod_data' => TODO
+    'enrol_ues' => 2013081007,
 );
