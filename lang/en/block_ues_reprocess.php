@@ -25,6 +25,7 @@ $string['pluginname'] = 'Reprocess Enrollment';
 
 $string['ues_reprocess:canreprocess'] = 'Allow UES enrollment reprocessing for courses';
 $string['ues_reprocess:addinstance'] = 'Add UES Repocess block';
+$string['ues_reprocess:myaddinstance'] = 'Add UES Repocess block';
 
 $string['not_supported'] = 'You have requested an unsupported reprocess type: {$a}';
 $string['reprocess'] = 'Reprocess';
