@@ -1,3 +1,7 @@
+## v1.1.4
+
+- update for Moodle 2.7
+
 ## v1.1.3
 
 - Remove unnecessary jQuery integration [fde69c][fde69c]
