@@ -34,7 +34,7 @@ abstract class ues_reprocess {
 
         ues::reprocess_sections($sections, false);
 
-        ues::reset_unenrollments($sections);
+        ues::resetUnenrollmentsForSection($sections);
 
         // Build processed entries
         foreach ($sections as $section) {

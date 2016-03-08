@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once $CFG->dirroot . '/enrol/ues/publiclib.php';
-ues::require_daos();
+ues::requireDaoLibs();
 
 class block_ues_reprocess extends block_list {
     function init() {
@@ -47,7 +47,7 @@ class block_ues_reprocess extends block_list {
         $content->icons = array();
         $content->footer = '';
 
-        ues::require_daos();
+        ues::requireDaoLibs();
 
         $teacher = ues_teacher::get(array('userid' => $USER->id));
 

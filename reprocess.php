@@ -28,7 +28,7 @@ require_once 'lib.php';
 
 require_login();
 
-ues::require_daos();
+ues::requireDaoLibs();
 
 $type = required_param('type', PARAM_TEXT);
 
