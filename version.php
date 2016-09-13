@@ -33,5 +33,5 @@ $plugin->release = 'v1.1.4';
 
 
 $plugin->dependencies = array(
-    'enrol_ues' => 2013081007,
+    'enrol_ues' => 2016083000,
 );
