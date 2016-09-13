@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-$plugin->version = 2014060500;
+$plugin->version = 2016091300;
 $plugin->requires = 2013051400;
 $plugin->cron = 3600;
 $plugin->component = 'block_ues_reprocess';
